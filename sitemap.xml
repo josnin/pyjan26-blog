@@ -1,61 +1,61 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
     <url>
-      <loc>pyjan26.dev/sitemap/</loc>
+      <loc>https://josnin.github.io/pyjan26-blog/sitemap/</loc>
       <changefreq>monthly</changefreq>
       <priority>0.8</priority>
     </url>
   
     <url>
-      <loc>pyjan26.dev/posts/first-blog-post/</loc>
+      <loc>https://josnin.github.io/pyjan26-blog/posts/first-blog-post/</loc>
       <changefreq>monthly</changefreq>
       <priority>0.8</priority>
     </url>
   
     <url>
-      <loc>pyjan26.dev/posts/second-blog-post/</loc>
+      <loc>https://josnin.github.io/pyjan26-blog/posts/second-blog-post/</loc>
       <changefreq>monthly</changefreq>
       <priority>0.8</priority>
     </url>
   
     <url>
-      <loc>pyjan26.dev/posts/custom-events-ecommerce/</loc>
+      <loc>https://josnin.github.io/pyjan26-blog/posts/custom-events-ecommerce/</loc>
       <changefreq>monthly</changefreq>
       <priority>0.8</priority>
     </url>
   
     <url>
-      <loc>pyjan26.dev/posts/understanding-python-decorators-comprehensive/</loc>
+      <loc>https://josnin.github.io/pyjan26-blog/posts/understanding-python-decorators-comprehensive/</loc>
       <changefreq>monthly</changefreq>
       <priority>0.8</priority>
     </url>
   
     <url>
-      <loc>pyjan26.dev/posts/10-python-tricks-programmer-should-know/</loc>
+      <loc>https://josnin.github.io/pyjan26-blog/posts/10-python-tricks-programmer-should-know/</loc>
       <changefreq>monthly</changefreq>
       <priority>0.8</priority>
     </url>
   
     <url>
-      <loc>pyjan26.dev/posts/exploring-power-of-chatgpt/</loc>
+      <loc>https://josnin.github.io/pyjan26-blog/posts/exploring-power-of-chatgpt/</loc>
       <changefreq>monthly</changefreq>
       <priority>0.8</priority>
     </url>
   
     <url>
-      <loc>pyjan26.dev/posts/</loc>
+      <loc>https://josnin.github.io/pyjan26-blog/posts/</loc>
       <changefreq>monthly</changefreq>
       <priority>0.8</priority>
     </url>
   
     <url>
-      <loc>pyjan26.dev/tags/tag/</loc>
+      <loc>https://josnin.github.io/pyjan26-blog/tags/tag/</loc>
       <changefreq>monthly</changefreq>
       <priority>0.8</priority>
     </url>
   
     <url>
-      <loc>pyjan26.dev/tags/</loc>
+      <loc>https://josnin.github.io/pyjan26-blog/tags/</loc>
       <changefreq>monthly</changefreq>
       <priority>0.8</priority>
     </url>
