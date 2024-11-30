@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome to PyJan26</title>
+    <link rel="stylesheet" href="/assets/styles.css">
+    <link rel="stylesheet" href="/assets/codehilite.css">
+</head>
+<body>
+        <header id="myheader">
+            <nav class="nav-ctnr">
+                <a class="nav-ctnr__home" href="/">pyjan26.dev</a>
+                <a class="nav-ctnr__blog" href="/posts/">Blogs</a>
+            </nav>
+        </header>
+        <main>
+            
+                <p><img alt="image" src="/assets/img/understanding-python-decorators-comprehensive.jpg" /></p>
+<h1>Introduction:</h1>
+<p>Python decorators are a powerful and versatile feature that allows you to add functionality to existing functions or methods dynamically. They provide a concise and elegant way to modify or extend the behavior of functions without modifying their code. In this tutorial, we'll explore decorators in Python, understand how they work, and learn how to use them effectively in your code.</p>
+<h2>What are Decorators?</h2>
+<p><a href="https://docs.python.org/3.12/glossary.html#term-decorator">Decorators</a> are higher-order functions that take another function as input and return a new function with extended functionality. They allow you to modify or enhance the behavior of functions dynamically, without changing their original implementation. Decorators are commonly used for adding logging, authentication, caching, and other cross-cutting concerns to functions.</p>
+<h2>How Decorators Work:</h2>
+<p>Decorators work by wrapping the original function with another function, often referred to as a "wrapper" function. When you decorate a function with a decorator, Python replaces the original function with the wrapper function. This enables you to execute additional code before or after the original function is called, or even replace the original function altogether.</p>
+<h1>Creating Decorators:</h1>
+<p>To create a decorator, you define a function that takes another function as input, modifies its behavior, and returns a new function. Decorators can be implemented using regular functions, nested functions, or even class-based approaches.</p>
+<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">my_decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Something is happening before the function is called.&quot;</span><span class="p">)</span>
+        <span class="n">func</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Something is happening after the function is called.&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">wrapper</span>
+
+<span class="nd">@my_decorator</span>
+<span class="k">def</span> <span class="nf">say_hello</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hello!&quot;</span><span class="p">)</span>
+
+<span class="n">say_hello</span><span class="p">()</span>
+</code></pre></div></td></tr></table></div>
+
+<h2>Applying Decorators:</h2>
+<p>Applying decorators to functions in Python is straightforward. You simply use the @decorator_name syntax above the function definition to apply the decorator. This syntax is also known as "pie" or "pie-notation". Let's see more examples:</p>
+<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Decorator to measure the execution time of a function</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="k">def</span> <span class="nf">measure_time</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Execution time of </span><span class="si">{</span><span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">end_time</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start_time</span><span class="si">}</span><span class="s2"> seconds&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span>
+    <span class="k">return</span> <span class="n">wrapper</span>
+
+<span class="nd">@measure_time</span>
+<span class="k">def</span> <span class="nf">calculate_sum</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">calculate_sum</span><span class="p">(</span><span class="mi">1000000</span><span class="p">))</span>  <span class="c1"># Example usage</span>
+</code></pre></div></td></tr></table></div>
+
+<h2>Common Use Cases:</h2>
+<p>Decorators have a wide range of applications in Python programming. Some common use cases include logging, performance profiling, input validation, memoization, and authentication. Let's explore more examples:</p>
+<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Decorator for logging function calls</span>
+<span class="k">def</span> <span class="nf">log_calls</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Calling </span><span class="si">{</span><span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> with args: </span><span class="si">{</span><span class="n">args</span><span class="si">}</span><span class="s2">, kwargs: </span><span class="si">{</span><span class="n">kwargs</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">wrapper</span>
+
+<span class="nd">@log_calls</span>
+<span class="k">def</span> <span class="nf">greet</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">!&quot;</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">greet</span><span class="p">(</span><span class="s2">&quot;Alice&quot;</span><span class="p">))</span>  <span class="c1"># Example usage</span>
+
+<span class="c1"># Decorator for memoization (caching) to improve performance</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">lru_cache</span>
+
+<span class="nd">@lru_cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">fibonacci</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">n</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">fibonacci</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">fibonacci</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">fibonacci</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>  <span class="c1"># Example usage</span>
+</code></pre></div></td></tr></table></div>
+
+<h1>Best Practices and Tips:</h1>
+<p>While decorators are a powerful tool, they can also lead to code that is difficult to understand and maintain if used improperly. We'll discuss best practices for designing and using decorators effectively, including naming conventions, documentation, and handling of function signatures and arguments.</p>
+<p>By exploring these additional examples, you'll gain a deeper understanding of how decorators can be applied in various scenarios to improve code readability, maintainability, and performance. Happy decorating!</p>
+            
+        </main>
+        <footer>
+            <div class="ft-ctnr">
+                <div class="ft-ctnr__other">
+                    <a class="ft-ctnr__other__policy" href="/privacy-policy/">Privacy Policy</a>
+                    <a class="ft-ctnr__other__terms-svc" href="/terms-service/">Terms of Service</a>
+                </div>
+                <span class="ft-ctnr__copyright">Powered by <a href="https://github.com/josnin/pyjan26">PyJan26</a></span>
+            </div>
+        </footer>
+</body>
+</html>
