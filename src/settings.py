@@ -49,7 +49,7 @@ PLUGIN_MODULES = [
 # Default Pagination Size
 PAGE_SIZE = 10
 
-SITE_NAME = 'pyjan26.dev'
+SITE_NAME = 'https://josnin.github.io/pyjan26-blog/'
 SITEMAP_CONFIG = [
     { 'collection': CONTENT_DIR, 'changefreq': 'monthly', 'priority': 0.8 },
     { 'collection': 'posts', 'changefreq': 'monthly', 'priority': 0.8 },
