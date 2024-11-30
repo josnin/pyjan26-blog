@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome to PyJan26</title>
+    <link rel="stylesheet" href="/pyjan26-blog/assets/styles.css">
+    <link rel="stylesheet" href="/pyjan26-blog/assets/codehilite.css">
+</head>
+<body>
+        <header id="myheader">
+            <nav class="nav-ctnr">
+                <a class="nav-ctnr__home" href="/pyjan26-blog/">pyjan26.dev</a>
+                <a class="nav-ctnr__blog" href="/pyjan26-blog/posts/">Blogs</a>
+            </nav>
+        </header>
+        <main>
+            
+                <p>In the world of web development, HTML custom elements bring modularity and reusability to the forefront. They allow developers to encapsulate functionality within custom components. However, when it comes to orchestrating communication between these components, custom events play a pivotal role.</p>
+<h2>Defining Custom Elements</h2>
+<p>Before we delve into the intricacies of custom events, let's ensure that our custom elements are properly defined. Using the customElements.define() method, we register our elements with the browser.</p>
+<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// ProductList.js</span>
+<span class="kd">class</span><span class="w"> </span><span class="nx">ProductList</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">HTMLElement</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">connectedCallback</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Set up event listeners and render product list HTML</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">customElements</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="s1">&#39;product-list&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">ProductList</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+
+<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// ShoppingCart.js</span>
+<span class="kd">class</span><span class="w"> </span><span class="nx">ShoppingCart</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">HTMLElement</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">connectedCallback</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Set up event listeners and render shopping cart HTML</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">customElements</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="s1">&#39;shopping-cart&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">ShoppingCart</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+
+<h2>The Role of Custom Events</h2>
+<p>Custom events provide a means for these custom elements to communicate and react to changes. In our scenario, the ProductList component dispatches a custom event, addToCart, when a user clicks the "Add to Cart" button. The ShoppingCart component listens for this event and updates its state accordingly.</p>
+<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// ProductList.js</span>
+<span class="kd">class</span><span class="w"> </span><span class="nx">ProductList</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">HTMLElement</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="err">#</span><span class="nx">products</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[];</span>
+
+<span class="w">  </span><span class="nx">connectedCallback</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
+
+<span class="w">    </span><span class="c1">// Attach event listener for the &quot;Add to Cart&quot; button</span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span><span class="s1">&#39;.addToCart&#39;</span><span class="p">).</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">button</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">button</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">event</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">handleAddToCart</span><span class="p">(</span><span class="nx">event</span><span class="p">));</span>
+<span class="w">    </span><span class="p">});</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="nx">handleAddToCart</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">productId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">parseInt</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Dispatch a custom event with the selected product</span>
+<span class="w">    </span><span class="nb">document</span><span class="p">.</span><span class="nx">dispatchEvent</span><span class="p">(</span><span class="ow">new</span><span class="w"> </span><span class="nx">CustomEvent</span><span class="p">(</span><span class="s1">&#39;addToCart&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">detail</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">productId</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}));</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="nx">render</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Render product list HTML</span>
+<span class="w">     </span><span class="k">this</span><span class="p">.</span><span class="nx">innerHTML</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sb">`</span>
+<span class="sb">      &lt;h2&gt;Product List&lt;/h2&gt;</span>
+<span class="sb">      &lt;ul&gt;</span>
+<span class="sb">        </span><span class="si">${</span><span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">products</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">product</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="sb">`</span>
+<span class="sb">          &lt;li&gt;</span>
+<span class="sb">            </span><span class="si">${</span><span class="nx">product</span><span class="p">.</span><span class="nx">name</span><span class="si">}</span><span class="sb"> - $</span><span class="si">${</span><span class="nx">product</span><span class="p">.</span><span class="nx">price</span><span class="si">}</span>
+<span class="sb">            &lt;button class=&quot;addToCart&quot; data-id=&quot;</span><span class="si">${</span><span class="nx">product</span><span class="p">.</span><span class="nx">id</span><span class="si">}</span><span class="sb">&quot;&gt;Add to Cart&lt;/button&gt;</span>
+<span class="sb">          &lt;/li&gt;`</span><span class="p">).</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="si">}</span>
+<span class="sb">      &lt;/ul&gt;`</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">customElements</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="s1">&#39;product-list&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">ProductList</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+
+<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// ShoppingCart.js</span>
+<span class="kd">class</span><span class="w"> </span><span class="nx">ShoppingCart</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">HTMLElement</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="err">#</span><span class="nx">cartItems</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[];</span>
+<span class="w">  </span><span class="nx">connectedCallback</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Listen for addToCart event from ProductList</span>
+<span class="w">    </span><span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;addToCart&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">event</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">productId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">detail</span><span class="p">.</span><span class="nx">productId</span><span class="p">;</span>
+<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">addToCart</span><span class="p">(</span><span class="nx">productId</span><span class="p">);</span>
+<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
+<span class="w">    </span><span class="p">});</span>
+
+<span class="w">    </span><span class="c1">// Render initial empty shopping cart</span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="nx">addToCart</span><span class="p">(</span><span class="nx">productId</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Fetch product details based on productId (replace with your logic)</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">product</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="nx">productId</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="sb">`Product </span><span class="si">${</span><span class="nx">productId</span><span class="si">}</span><span class="sb">`</span><span class="p">,</span><span class="w"> </span><span class="nx">price</span><span class="o">:</span><span class="w"> </span><span class="mf">19.99</span><span class="w"> </span><span class="p">};</span>
+
+<span class="w">    </span><span class="c1">// Add the product to the shopping cart</span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">cartItems</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">product</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="nx">render</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Render shopping cart HTML</span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">innerHTML</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sb">`</span>
+<span class="sb">      &lt;h2&gt;Shopping Cart&lt;/h2&gt;</span>
+<span class="sb">      &lt;ul&gt;</span>
+<span class="sb">        </span><span class="si">${</span><span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">cartItems</span><span class="p">.</span><span class="nx">length</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mf">0</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s1">&#39;&lt;li&gt;Empty Cart&lt;/li&gt;&#39;</span><span class="w"> </span><span class="o">:</span>
+<span class="w">          </span><span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">cartItems</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">item</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="sb">`&lt;li&gt;</span><span class="si">${</span><span class="nx">item</span><span class="p">.</span><span class="nx">name</span><span class="si">}</span><span class="sb"> - $</span><span class="si">${</span><span class="nx">item</span><span class="p">.</span><span class="nx">price</span><span class="si">}</span><span class="sb">&lt;/li&gt;`</span><span class="p">).</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="w">        </span><span class="si">}</span>
+<span class="sb">      &lt;/ul&gt;`</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">customElements</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="s1">&#39;shopping-cart&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">ShoppingCart</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+
+<h2>Ensuring Event Handling in Shadow DOM</h2>
+<p>If one of the custom elements utilizes Shadow DOM, ensure that events inside the Shadow DOM are accessible from outside. Proper event handling within the Shadow DOM is crucial for seamless communication.</p>
+<h2>Conclusion</h2>
+<p>By embracing the synergy between HTML custom elements and custom events, developers can create modular and interconnected components. This approach promotes maintainability, scalability, and a cleaner architecture in web applications.</p>
+<p>Feel free to experiment with these concepts and adapt them to your specific use cases. Custom elements and events empower developers to build flexible and robust web applications that stand the test of time. Happy coding! 🚀</p>
+            
+        </main>
+        <footer>
+            <div class="ft-ctnr">
+                <div class="ft-ctnr__other">
+                    <a class="ft-ctnr__other__policy" href="/privacy-policy/">Privacy Policy</a>
+                    <a class="ft-ctnr__other__terms-svc" href="/terms-service/">Terms of Service</a>
+                </div>
+                <span class="ft-ctnr__copyright">Powered by <a href="https://github.com/josnin/pyjan26">PyJan26</a></span>
+            </div>
+        </footer>
+</body>
+</html>

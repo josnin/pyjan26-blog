@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome to PyJan26</title>
+    <link rel="stylesheet" href="{{settings.BASE_URL}}/assets/styles.css">
+    <link rel="stylesheet" href="{{settings.BASE_URL}}/assets/codehilite.css">
+</head>
+<body>
+        <header id="myheader">
+            <nav class="nav-ctnr">
+                <a class="nav-ctnr__home" href="{{settings.BASE_URL}}/">{{settings.SITE_NAME}}</a>
+                <a class="nav-ctnr__blog" href="{{settings.BASE_URL}}/posts/">Blogs</a>
+            </nav>
+        </header>
+        <main>
+            {% block content %}
+                {{ content | safe }}
+            {% endblock %}
+        </main>
+        <footer>
+            <div class="ft-ctnr">
+                <div class="ft-ctnr__other">
+                    <a class="ft-ctnr__other__policy" href="/privacy-policy/">Privacy Policy</a>
+                    <a class="ft-ctnr__other__terms-svc" href="/terms-service/">Terms of Service</a>
+                </div>
+                <span class="ft-ctnr__copyright">Powered by <a href="https://github.com/josnin/pyjan26">PyJan26</a></span>
+            </div>
+        </footer>
+</body>
+</html>
